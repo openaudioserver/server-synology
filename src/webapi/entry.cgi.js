@@ -15,7 +15,7 @@ module.exports = (library, req, res) => {
   } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI2)
   } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
-    return res.end(entryCGI3)
+    return res.end(entryCGI3.replace('SESSIONID', `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`))
   } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI4)
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.launch_app === '"SYNO.SDS.AudioStation.Application"') {
