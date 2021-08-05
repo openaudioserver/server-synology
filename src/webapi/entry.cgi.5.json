@@ -12134,7 +12134,7 @@
           "volume_no_volumes": "There is no volume in your system. Please go to <b>Storage Manager</b> and create a new volume."
         }
       },
-      "SYNO.SDS.AudioStation.SessionData": {​
+      "SYNO.SDS.AudioStation.SessionData": {
         "privilege": { 
           "playlist_edit": true, 
           "remote_player": true, 
