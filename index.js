@@ -96,6 +96,7 @@ async function executeRoute (library, req, res, filePath) {
     const sourceFile = require(filePath)
     return sourceFile(library, req, res)
   } catch (error) {
+    console.log('[synology]', 'error executing route', error)
     res.statusCode = 500
     return res.end()
   }
