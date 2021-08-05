@@ -40,6 +40,9 @@ module.exports = {
     if (!req.headers.cookie || req.headers.cookie.indexOf('smid=') === -1) {
       res.setHeader('set-cookie', `_session=${process.env.SYNOLOGY_SESSION || '10be75671cbb80fa4b45bd0501514a7bd664f6d669294d2199b916dd1ecceb8f4531'}; smid=${process.env.SYNOLOGY_SMID || 'E9GRXinHCOWZrGINa_VJPiuzMjMWLwkXyJCJT8z_pZ7KZ8Jf7vdLq9vxSf4zpJ7lQAWaO6WOHOZYkVfAnziPPg'}; stay_login=1; id=${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`)
     }
+    if (req.urlPath.indexOf('.cgi/') > -1) {
+      req.urlPath = req.urlPath.substring(0, req.urlPath.indexOf('.cgi/') + '.cgi'.length)
+    }
     if (req.urlPath !== '/webapi/AudioStation/cover.cgi') {
       if (req.urlPath.endsWith('.cgi') || req.urlPath.endsWith('.js')) {
         res.setHeader('content-type', 'application/javascript')
