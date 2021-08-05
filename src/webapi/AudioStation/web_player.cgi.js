@@ -1,22 +1,18 @@
-module.exports = {
-  getQueue,
-  updateQueue,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'getplaylist':
-        response = await getQueue(library)
-        break
-      case 'updateplaylist':
-        response = await updateQueue(library, postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'getplaylist':
+      response = await getQueue(library)
+      break
+    case 'updateplaylist':
+      response = await updateQueue(library, req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function getQueue (library) {

@@ -1,32 +1,27 @@
 const exec = require('child_process').exec
 const util = require('util')
 
-module.exports = {
-  listPlaybackDevices,
-  getQueue,
-  updateQueue,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        response = await listPlaybackDevices(library)
-        break
-      case 'getplaylist':
-        response = await getQueue(library)
-        break
-      case 'updateplaylist':
-        response = await updateQueue(library, postData)
-        break
-      case 'control':
-        response = await control(library, postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      response = await listPlaybackDevices(library)
+      break
+    case 'getplaylist':
+      response = await getQueue(library)
+      break
+    case 'updateplaylist':
+      response = await updateQueue(library, req.postData)
+      break
+    case 'control':
+      response = await control(library, req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function listPlaybackDevices () {

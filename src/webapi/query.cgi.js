@@ -1,7 +1,7 @@
 const queryCGI = JSON.stringify(require('./query.cgi.json'))
 
-module.exports = (_, _2, res, postData) => {
-  if (postData.query === 'all' && postData.api === 'SYNO.API.Info' && postData.method === 'query' && postData.version === '1') {
+module.exports = (library, req, res) => {
+  if (req.postData.query === 'all' && req.postData.api === 'SYNO.API.Info' && req.postData.method === 'query' && req.postData.version === '1') {
     return res.end(queryCGI)
   }
 }

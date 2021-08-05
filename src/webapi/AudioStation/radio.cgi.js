@@ -1,40 +1,32 @@
 const https = require('https')
 const util = require('util')
 
-module.exports = {
-  listAddedStations,
-  listFavoriteStations,
-  listSHOUTcastGenres,
-  listSHOUTCastGenreStations,
-  addStation,
-  updateStation,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        if (postData.container === 'UserDefined') {
-          response = listAddedStations(library)
-        } else if (postData.container === 'Favorite') {
-          response = listFavoriteStations(library)
-        } else if (postData.container === 'SHOUTcast') {
-          response = listSHOUTcastGenres(library)
-        } else if (postData.container.startsWith('SHOUTcast_genre_')) {
-          response = SHOUTcastGenreStationList(library, postData)
-        }
-        break
-      case 'add':
-        response = await addStation(postData)
-        break
-      case 'updateradio':
-        response = await updateStation(postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      if (req.postData.container === 'UserDefined') {
+        response = listAddedStations(library)
+      } else if (req.postData.container === 'Favorite') {
+        response = listFavoriteStations(library)
+      } else if (req.postData.container === 'SHOUTcast') {
+        response = listSHOUTcastGenres(library)
+      } else if (req.postData.container.startsWith('SHOUTcast_genre_')) {
+        response = SHOUTcastGenreStationList(library, req.postData)
+      }
+      break
+    case 'add':
+      response = await addStation(req.postData)
+      break
+    case 'updateradio':
+      response = await updateStation(req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function listAddedStations (library) {

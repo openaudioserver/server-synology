@@ -36,6 +36,7 @@ module.exports = {
     return false
   },
   handleRequest: async (library, req, res) => {
+    res.statusCode = 200
     if (req.homePath) {
       return serveStaticFile(req, res, process.env.DSAUDIO_HTML_PATH)
     }
@@ -43,7 +44,15 @@ module.exports = {
       return serveStaticFile(req, res, req.synomanPath)
     }
     if (req.sourcePath) {
-      return executeRoute(library, req, res, req.sourcePath)
+      try {
+        await executeRoute(library, req, res, req.sourcePath)
+        return
+      }
+      catch (error) {
+        console.log('[synology]', req.urlPath, error)
+        res.statusCode = 500
+        return res.end()
+      }
     }
     res.statusCode = 404
     return res.end()

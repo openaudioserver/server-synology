@@ -1,3 +1,3 @@
-module.exports = (_, _2, res) => {
+module.exports = (library, req, res) => {
   return res.end('')
 }

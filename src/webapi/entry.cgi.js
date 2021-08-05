@@ -8,45 +8,45 @@ const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
 const cache = {}
 const existsCache = {}
 
-module.exports = (library, req, res, postData, queryData) => {
-  if (queryData.method === 'getjs') {
+module.exports = (library, req, res) => {
+  if (req.queryData.method === 'getjs') {
     res.setHeader('content-type', 'application/json; charset="UTF-8"')
   }
-  if (queryData.api === 'SYNO.Core.Desktop.Defs' && queryData.version === '1' && queryData.method === 'getjs') {
+  if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI1)
-  } else if (queryData.api === 'SYNO.Core.Desktop.JSUIString' && queryData.version === '1' && queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI2)
-  } else if (queryData.api === 'SYNO.Core.Desktop.SessionData' && queryData.version === '1' && queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI3)
-  } else if (queryData.api === 'SYNO.Core.Desktop.UIString' && queryData.version === '1' && queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI4)
-  } else if (postData.api === 'SYNO.Core.Desktop.Initdata' && postData.launch_app === '"SYNO.SDS.AudioStation.Application"') {
+  } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.launch_app === '"SYNO.SDS.AudioStation.Application"') {
     return res.end(entryCGI5)
-  } else if (postData.api === 'SYNO.Core.Desktop.Initdata' && postData.action === '"external_ip"') {
+  } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.action === '"external_ip"') {
     return res.end('{ "data": { "external_ip": "0.0.0.0" }, "success": true }')
-  } else if (postData.api === 'SYNO.Core.Desktop.Timeout') {
+  } else if (req.postData.api === 'SYNO.Core.Desktop.Timeout') {
     return res.end('{ "data": { "timeout": 15 }, "success": true }')
-  } else if (postData.api === 'SYNO.FileStation.BackgroundTask' && postData.method === 'list') {
+  } else if (req.postData.api === 'SYNO.FileStation.BackgroundTask' && req.postData.method === 'list') {
     return res.end('{ "data": { "offset": 0, "tasks": [], "total": 0 }, "success": true }')
-  } else if (postData.api === 'SYNO.Core.DataCollect.Application' && postData.app === '"SYNO.SDS.AudioStation.AppWindow"') {
+  } else if (req.postData.api === 'SYNO.Core.DataCollect.Application' && req.postData.app === '"SYNO.SDS.AudioStation.AppWindow"') {
     return res.end('{ "success": true }')
-  } else if (postData.api === 'SYNO.Core.UserSettings' && postData.method === 'apply') {
+  } else if (req.postData.api === 'SYNO.Core.UserSettings' && req.postData.method === 'apply') {
     return res.end('{ "success": true }')
-  } else if (postData.api === 'SYNO.Entry.Request' && postData.mode === '"parallel"') {
+  } else if (req.postData.api === 'SYNO.Entry.Request' && req.postData.mode === '"parallel"') {
     return res.end('{ "data": { "has_fail": false, "result": [{ "api": "SYNO.Core.Desktop.Timeout", "method": "check", "success": true, "version": 1 }] }, "success": true }')
   }
   // AudioStation pinning and playlists routes through this URL
-  if (postData.api === 'SYNO.AudioStation.Pin') {
+  if (req.postData.api === 'SYNO.AudioStation.Pin') {
     const pinList = require('../webapi/AudioStation/pinlist.js')
-    return pinList.httpRequest(library, req, res, postData, queryData)
-  } else if (postData.api === 'SYNO.AudioStation.Browse.Playlist') {
+    return pinList(library, req, res)
+  } else if (req.postData.api === 'SYNO.AudioStation.Browse.Playlist') {
     const playList = require('../webapi/AudioStation/playlist.cgi.js')
-    return playList.httpRequest(library, req, res, postData, queryData)
+    return playList(library, req, res)
   }
   // map everything else to a synoman file if exists
   let urlPart = req.url.split('?')[0]
-  if (queryData.api === 'SYNO.Core.Synohdpack' && queryData.path) {
-    urlPart = `/${queryData.path.replace('{0}', '256')}`
+  if (req.queryData.api === 'SYNO.Core.Synohdpack' && req.queryData.path) {
+    urlPart = `/${req.queryData.path.replace('{0}', '256')}`
   }
   const synomanFilePath = path.join(process.env.SYNOMAN_PATH, urlPart)
   const exists = existsCache[synomanFilePath] = existsCache[synomanFilePath] || fs.existsSync(synomanFilePath)

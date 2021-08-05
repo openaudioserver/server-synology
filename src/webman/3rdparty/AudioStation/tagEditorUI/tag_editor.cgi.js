@@ -1,6 +1,6 @@
-module.exports = (library, _, res, postData) => {
-  if (postData.action === 'load') {
-    const info = JSON.parse(postData.audioInfos)
+module.exports = (library, req, res) => {
+  if (req.postData.action === 'load') {
+    const info = JSON.parse(req.postData.audioInfos)
     const song = library.media.filter(song => song.path === info[0].path)[0]
     const songArtists = []
     for (const artist of song.artists) {
@@ -35,8 +35,8 @@ module.exports = (library, _, res, postData) => {
       success: true
     }
     return res.end(JSON.stringify(tagEditorResponse))
-  } else if (postData.action === 'apply') {
-    const data = JSON.parse(postData.data)
+  } else if (req.postData.action === 'apply') {
+    const data = JSON.parse(req.postData.data)
     const song = library.media.filter(song => song.path === data[0].audioInfos[0].path)[0]
     library.songEdits[song.path] = {
       album: data[0].album,

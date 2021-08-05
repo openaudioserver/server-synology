@@ -1,18 +1,15 @@
-module.exports = {
-  listComposers,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        response = await listComposers(library, postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      response = await listComposers(library, req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function listComposers (library, options) {

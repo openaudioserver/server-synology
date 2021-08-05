@@ -5,25 +5,24 @@ const cache = {}
 const existsCache = {}
 
 module.exports = async (library, req, res) => {
-    let response
-    switch (req.queryData.method) {
-      case 'getcover':
-        response = await coverImage(library, req.queryData)
-        break
-      case 'getsongcover':
-        response = await coverImage(library, req.queryData)
-        break
-    }
-    if (response && response.buffer) {
-      res.writeHead(206, {
-        'content-type': response.format,
-        'content-length': response.buffer.length
-      })
-      return res.end(response.buffer)
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+  let response
+  switch (req.queryData.method) {
+    case 'getcover':
+      response = await coverImage(library, req.queryData)
+      break
+    case 'getsongcover':
+      response = await coverImage(library, req.queryData)
+      break
   }
+  if (response && response.buffer) {
+    res.writeHead(206, {
+      'content-type': response.format,
+      'content-length': response.buffer.length
+    })
+    return res.end(response.buffer)
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function coverImage (library, options) {

@@ -1,46 +1,36 @@
-module.exports = {
-  getPlayList,
-  listPlayLists,
-  createNormalPlayList,
-  createSmartPlayList,
-  addTrackToNormalPlayList,
-  updateSmartPlayList,
-  renamePlayList,
-  deletePlaylist,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'getinfo':
-        response = await getPlayList(library, postData)
-        break
-      case 'list':
-        response = await listPlayLists(library, postData)
-        break
-      case 'create':
-        response = await createNormalPlayList(library, postData)
-        break
-      case 'add_track':
-        response = await addTrackToNormalPlayList(library, postData)
-        break
-      case 'createsmart':
-        response = await createSmartPlayList(library, postData)
-        break
-      case 'updatesmart':
-        response = await updateSmartPlayList(library, postData)
-        break
-      case 'rename':
-        response = await renamePlayList(library, postData)
-        break
-      case 'delete':
-        response = await deletePlaylist(library, postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'getinfo':
+      response = await getPlayList(library, req.postData)
+      break
+    case 'list':
+      response = await listPlayLists(library, req.postData)
+      break
+    case 'create':
+      response = await createNormalPlayList(library, req.postData)
+      break
+    case 'add_track':
+      response = await addTrackToNormalPlayList(library, req.postData)
+      break
+    case 'createsmart':
+      response = await createSmartPlayList(library, req.postData)
+      break
+    case 'updatesmart':
+      response = await updateSmartPlayList(library, req.postData)
+      break
+    case 'rename':
+      response = await renamePlayList(library, req.postData)
+      break
+    case 'delete':
+      response = await deletePlaylist(library, req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function getPlayList (library, options) {
