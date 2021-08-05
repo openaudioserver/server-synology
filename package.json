@@ -1,0 +1,16 @@
+{
+  "name": "@openaudioserver/server-synology",
+  "version": "1.0.0",
+  "description": "Use Synology DS Audio smartphone apps and AudioStation web interface with Open Audio Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "configuration": {
+    "browser": "/dsaudio",
+    "ios": ["https://apps.apple.com/us/app/ds-audio/id321495303"],
+    "android": ["https://www.synology.com/en-us/support/download/DS920+#androids", "https://play.google.com/store/apps/details?id=com.synology.DSaudio"]
+  },
+  "author": "",
+  "license": "ISC"
+}
