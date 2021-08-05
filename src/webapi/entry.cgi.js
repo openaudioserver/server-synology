@@ -8,7 +8,7 @@ const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
 
 module.exports = (library, req, res) => {
   if (req.queryData.method === 'getjs') {
-    res.setHeader('content-type', 'application/json; charset="UTF-8"')
+    res.setHeader('content-type', 'application/javascript; charset="UTF-8"')
   }
   if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI1)
