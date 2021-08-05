@@ -9,7 +9,7 @@ const existsAsync = util.promisify((filePath, callback) => {
     const stat = fs.statSync(filePath)
     return callback(null, stat.isFile())
   } catch (error) {
-    return callback(error)
+    return callback(null, false)
   }
 })
 
@@ -20,7 +20,7 @@ module.exports = {
       req.homePath = true
       return true
     }
-    const sourcePath = path.join(__dirname, 'src', `${req.urlPath}.js`)
+    const sourcePath = path.join('.', 'src', `${req.urlPath}.js`)
     const sourcePathExists = existsCache[sourcePath] = existsCache[sourcePath] || await existsAsync(sourcePath)
     if (sourcePathExists) {
       req.sourcePath = sourcePath
