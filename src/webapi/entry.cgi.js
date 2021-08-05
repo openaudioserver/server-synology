@@ -12,7 +12,7 @@ module.exports = (library, req, res) => {
   } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString') {
     return res.end(entryCGI2)
   } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData') {
-    return res.end(entryCGI3.replace('SESSIONID', `${process.env.SYNOLOGY_SESSION_ID || 'ap0hulniOX5f'}.${process.env.SYNOLOGY_SERIAL_NUMBER || '1130LWN011720'}`))
+    return res.end(entryCGI3.replace('SESSIONID', `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`))
   } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString') {
     return res.end(entryCGI4)
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.method === 'get') {
