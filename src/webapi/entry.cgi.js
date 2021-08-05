@@ -9,13 +9,13 @@ const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
 module.exports = (library, req, res) => {
   if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI1)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.method === 'getjs') {
     return res.end(entryCGI2)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.method === 'getjs') {
     return res.end(entryCGI3)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.method === 'getjs') {
     return res.end(entryCGI4)
-  } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.launch_app === '"SYNO.SDS.AudioStation.Application"') {
+  } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.method === 'get') {
     return res.end(entryCGI5)
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.action === '"external_ip"') {
     return res.end('{ "data": { "external_ip": "0.0.0.0" }, "success": true }')
