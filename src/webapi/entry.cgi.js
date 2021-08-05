@@ -7,13 +7,13 @@ const entryCGI4 = fs.readFileSync(path.join(__dirname, 'entry.cgi.4.js')).toStri
 const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
 
 module.exports = (library, req, res) => {
-  if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
+  if (req.queryData.api === 'SYNO.Core.Desktop.Defs') {
     return res.end(entryCGI1)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString') {
     return res.end(entryCGI2)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData') {
     return res.end(entryCGI3)
-  } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.method === 'getjs') {
+  } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString') {
     return res.end(entryCGI4)
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.method === 'get') {
     return res.end(entryCGI5)
@@ -38,4 +38,6 @@ module.exports = (library, req, res) => {
     const playList = require('../webapi/AudioStation/playlist.cgi.js')
     return playList(library, req, res)
   }
+  console.log('unsupported ending', req.url)
+  res.end()
 }

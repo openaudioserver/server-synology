@@ -1,9 +1,9 @@
-module.exports = (_, _2, res, postData) => {
-  if (postData.api === 'SYNO.AudioStation.Info' && postData.method === 'getinfo' && postData.version === '1') {
+module.exports = (library, req, res) => {
+  if (req.postData.api === 'SYNO.AudioStation.Info' && req.postData.method === 'getinfo') {
     return res.end(AudioStationInfoCGI1)
-  } else if (postData.api === 'SYNO.AudioStation.Info' && postData.method === 'getinfo' && postData.version === '2') {
+  } else if (req.postData.api === 'SYNO.AudioStation.Info' && req.postData.method === 'getinfo') {
     return res.end(AudioStationInfoCGI2)
-  } else if (postData.api === 'SYNO.AudioStation.Info' && postData.method === 'getinfo' && postData.version === '4') {
+  } else if (req.postData.api === 'SYNO.AudioStation.Info' && req.postData.method === 'getinfo') {
     return res.end(AudioStationInfoCGI3)
   }
 }
