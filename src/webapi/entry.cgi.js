@@ -5,8 +5,6 @@ const entryCGI2 = fs.readFileSync(path.join(__dirname, 'entry.cgi.2.js')).toStri
 const entryCGI3 = fs.readFileSync(path.join(__dirname, 'entry.cgi.3.js')).toString()
 const entryCGI4 = fs.readFileSync(path.join(__dirname, 'entry.cgi.4.js')).toString()
 const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
-const cache = {}
-const existsCache = {}
 
 module.exports = (library, req, res) => {
   if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
@@ -39,20 +37,5 @@ module.exports = (library, req, res) => {
   } else if (req.postData.api === 'SYNO.AudioStation.Browse.Playlist') {
     const playList = require('../webapi/AudioStation/playlist.cgi.js')
     return playList(library, req, res)
-  }
-  // map everything else to a synoman file if exists
-  let urlPart = req.url.split('?')[0]
-  if (req.queryData.api === 'SYNO.Core.Synohdpack' && req.queryData.path) {
-    urlPart = `/${req.queryData.path.replace('{0}', '256')}`
-  }
-  const synomanFilePath = path.join(process.env.SYNOMAN_PATH, urlPart)
-  const exists = existsCache[synomanFilePath] = existsCache[synomanFilePath] || fs.existsSync(synomanFilePath)
-  if (exists) {
-    cache[synomanFilePath] = cache[synomanFilePath] || {
-      format: 'image/png',
-      data: fs.readFileSync(synomanFilePath)
-    }
-    res.setHeader('content-type', cache[synomanFilePath].format)
-    return res.end(cache[synomanFilePath].data)
   }
 }
