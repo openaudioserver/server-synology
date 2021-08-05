@@ -37,6 +37,17 @@ module.exports = {
   },
   handleRequest: async (library, req, res) => {
     res.statusCode = 200
+    if (req.urlPath !== '/webapi/AudioStation/cover.cgi') {
+      if (req.urlPath.endsWith('.cgi') || req.urlPath.endsWith('.js')) {
+        res.setHeader('content-type', 'application/javascript')
+      } else if (req.urlPath.endsWith('.css')) {
+        res.setHeader('content-type', 'text/css')
+      } else if (req.urlPath.endsWith('.png')) {
+        res.setHeader('content-type', 'image/png')
+      } else if (req.urlPath.endsWith('.jpg') || req.urlPath.endsWith('.jpeg')) {
+        res.setHeader('content-type', 'image/jpeg')
+      }
+    }
     if (req.homePath) {
       return serveStaticFile(req, res, process.env.DSAUDIO_HTML_PATH)
     }
