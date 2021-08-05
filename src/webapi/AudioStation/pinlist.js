@@ -1,34 +1,27 @@
-module.exports = {
-  listPinnedItems,
-  pinItem,
-  unpinItem,
-  renameItem,
-  reorderPinnedItems,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        response = await listPinnedItems(library)
-        break
-      case 'pin':
-        response = await pinItem(library, postData)
-        break
-      case 'unpin':
-        response = await unpinItem(library, postData)
-        break
-      case 'rename':
-        response = await renameItem(library, postData)
-        break
-      case 'reorder':
-        response = await reorderPinnedItems(library, postData)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      response = await listPinnedItems(library)
+      break
+    case 'pin':
+      response = await pinItem(library, req.postData)
+      break
+    case 'unpin':
+      response = await unpinItem(library, req.postData)
+      break
+    case 'rename':
+      response = await renameItem(library, req.postData)
+      break
+    case 'reorder':
+      response = await reorderPinnedItems(library, req.postData)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function listPinnedItems (library) {

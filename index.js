@@ -3,6 +3,7 @@ const path = require('path')
 const util = require('util')
 const existsCache = {}
 const bufferCache = {}
+const modulePath = __dirname
 
 const existsAsync = util.promisify((filePath, callback) => {
   try {
@@ -14,13 +15,13 @@ const existsAsync = util.promisify((filePath, callback) => {
 })
 
 module.exports = {
-  wantsRequest: async (req) => {
+  wantsRequest: async (library, req) => {
     const homePath = req.urlPath === '/dsaudio'
     if (homePath) {
       req.homePath = true
       return true
     }
-    const sourcePath = path.join('.', 'src', `${req.urlPath}.js`)
+    const sourcePath = path.join(modulePath, 'src', `${req.urlPath}.js`)
     const sourcePathExists = existsCache[sourcePath] = existsCache[sourcePath] || await existsAsync(sourcePath)
     if (sourcePathExists) {
       req.sourcePath = sourcePath
@@ -34,15 +35,15 @@ module.exports = {
     }
     return false
   },
-  handleRequest: async (req, res) => {
+  handleRequest: async (library, req, res) => {
     if (req.homePath) {
       return serveStaticFile(req, res, process.env.DSAUDIO_HTML_PATH)
     }
-    if (req.sourcePath) {
-      return executeRoute(req, res, req.sourcePath)
-    }
     if (req.synomanPath) {
       return serveStaticFile(req, res, req.synomanPath)
+    }
+    if (req.sourcePath) {
+      return executeRoute(library, req, res, req.sourcePath)
     }
     res.statusCode = 404
     return res.end()
@@ -65,12 +66,10 @@ async function serveStaticFile (req, res, filePath) {
   return res.end(buffer)
 }
 
-async function executeRoute (req, res, filePath) {
+async function executeRoute (library, req, res, filePath) {
   try {
     const sourceFile = require(filePath)
-    if (sourceFile.httpRequest) {
-      return sourceFile.httpRequest(req, res)
-    }
+    return sourceFile(library, req, res)
   } catch (error) {
     res.statusCode = 500
     return res.end()

@@ -1,22 +1,19 @@
-module.exports = {
-  searchLibrary,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        response = await searchLibrary(library, postData)
-        break
-    }
-    if (response.buffer) {
-      res.writeHead(206, {
-        'content-type': response.contentType,
-        'content-length': response.buffer.length
-      })
-      return res.end(response.buffer)
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      response = await searchLibrary(library, req.postData)
+      break
   }
+  if (response.buffer) {
+    res.writeHead(206, {
+      'content-type': response.contentType,
+      'content-length': response.buffer.length
+    })
+    return res.end(response.buffer)
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function searchLibrary (library, options) {

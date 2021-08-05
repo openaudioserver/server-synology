@@ -4,33 +4,30 @@ const iceCast = require('icecast-parser')
 const util = require('util')
 let streamNumber = 0
 
-module.exports = {
-  deleteStream,
-  httpRequest: async (library, _, res, postData, queryData) => {
-    let response
-    if (queryData.method === 'getsonginfo') {
-      response = await getStreamTrackInformation(library, queryData)
-    } else {
-      switch (postData.method) {
-        case 'getstreamid':
-          response = await startStream(library)
-          break
-        case 'deletesonginfo':
-          response = await deleteStream(library, postData)
-          break
-        case 'stream':
-          if (library.radioStreams[queryData.stream_id]) {
-            return library.radioStreams[queryData.stream_id].stream.pipe(res)
-          }
-          break
-      }
+module.exports = async (library, req, res) => {
+  let response
+  if (req.queryData.method === 'getsonginfo') {
+    response = await getStreamTrackInformation(library, req.queryData)
+  } else {
+    switch (req.postData.method) {
+      case 'getstreamid':
+        response = await startStream(library)
+        break
+      case 'deletesonginfo':
+        response = await deleteStream(library, req.postData)
+        break
+      case 'stream':
+        if (library.radioStreams[req.queryData.stream_id]) {
+          return library.radioStreams[req.queryData.stream_id].stream.pipe(res)
+        }
+        break
     }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 const getStreamTrackInformation = module.exports.getStreamTrackInformation = util.promisify((library, options, callback) => {

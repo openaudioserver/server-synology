@@ -2,25 +2,21 @@ const fs = require('fs')
 const path = require('path')
 const existsCache = {}
 
-module.exports = {
-  listGenres,
-  listDefaultGenres,
-  httpRequest: async (library, _, res, postData) => {
-    let response
-    switch (postData.method) {
-      case 'list':
-        response = await listGenres(library, postData)
-        break
-      case 'list_default_genre':
-        response = await listDefaultGenres(library)
-        break
-    }
-    if (response) {
-      return res.end(JSON.stringify(response))
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.postData.method) {
+    case 'list':
+      response = await listGenres(library, req.postData)
+      break
+    case 'list_default_genre':
+      response = await listDefaultGenres(library)
+      break
   }
+  if (response) {
+    return res.end(JSON.stringify(response))
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function listGenres (library, options) {

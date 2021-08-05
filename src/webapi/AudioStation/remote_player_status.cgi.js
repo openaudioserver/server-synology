@@ -1,23 +1,20 @@
 const fs = require('fs')
 
-module.exports = {
-  getPlaybackInformation,
-  httpRequest: async (library, _, res, _2, queryData) => {
-    let response
-    switch (queryData.method) {
-      case 'getstatus':
-        response = await getPlaybackInformation(library)
-        break
-    }
-    if (response.buffer) {
-      res.writeHead(206, {
-        'content-type': response.contentType,
-        'content-length': response.buffer.length
-      })
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.queryData.method) {
+    case 'getstatus':
+      response = await getPlaybackInformation(library)
+      break
   }
+  if (response.buffer) {
+    res.writeHead(206, {
+      'content-type': response.contentType,
+      'content-length': response.buffer.length
+    })
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function getPlaybackInformation (library) {

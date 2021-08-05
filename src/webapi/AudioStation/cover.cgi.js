@@ -4,16 +4,14 @@ const MusicMetaData = require('music-metadata')
 const cache = {}
 const existsCache = {}
 
-module.exports = {
-  coverImage,
-  httpRequest: async (library, req, res, _2, queryData) => {
+module.exports = async (library, req, res) => {
     let response
-    switch (queryData.method) {
+    switch (req.queryData.method) {
       case 'getcover':
-        response = await coverImage(library, queryData)
+        response = await coverImage(library, req.queryData)
         break
       case 'getsongcover':
-        response = await coverImage(library, queryData)
+        response = await coverImage(library, req.queryData)
         break
     }
     if (response && response.buffer) {

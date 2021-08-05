@@ -1,28 +1,24 @@
 const fs = require('fs')
 
-module.exports = {
-  streamFile,
-  transcodeMP3,
-  httpRequest: async (library, _, res, _2, queryData) => {
-    let response
-    switch (queryData.method) {
-      case 'stream':
-        response = await streamFile(library, queryData)
-        break
-      case 'transcode':
-        response = await transcodeMP3(library, queryData)
-        break
-    }
-    if (response.buffer) {
-      res.writeHead(206, {
-        'content-type': response.contentType,
-        'content-length': response.buffer.length
-      })
-      return res.end(response.buffer)
-    }
-    res.statusCode = 404
-    return res.end('{ "success": false }')
+module.exports = async (library, req, res) => {
+  let response
+  switch (req.queryData.method) {
+    case 'stream':
+      response = await streamFile(library, req.queryData)
+      break
+    case 'transcode':
+      response = await transcodeMP3(library, req.queryData)
+      break
   }
+  if (response.buffer) {
+    res.writeHead(206, {
+      'content-type': response.contentType,
+      'content-length': response.buffer.length
+    })
+    return res.end(response.buffer)
+  }
+  res.statusCode = 404
+  return res.end('{ "success": false }')
 }
 
 async function transcodeMP3 (library, options) {
