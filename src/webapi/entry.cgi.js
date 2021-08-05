@@ -9,9 +9,6 @@ const cache = {}
 const existsCache = {}
 
 module.exports = (library, req, res) => {
-  if (req.queryData.method === 'getjs') {
-    res.setHeader('content-type', 'application/json; charset="UTF-8"')
-  }
   if (req.queryData.api === 'SYNO.Core.Desktop.Defs' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
     return res.end(entryCGI1)
   } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.version === '1' && req.queryData.method === 'getjs') {
