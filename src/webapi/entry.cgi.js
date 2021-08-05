@@ -34,10 +34,10 @@ module.exports = (library, req, res) => {
     return res.end('{ "data": { "has_fail": false, "result": [{ "api": "SYNO.Core.Desktop.Timeout", "method": "check", "success": true, "version": 1 }] }, "success": true }')
   }
   // AudioStation pinning and playlists routes through this URL
-  if (req.req.postData.api === 'SYNO.AudioStation.Pin') {
+  if (req.postData.api === 'SYNO.AudioStation.Pin') {
     const pinList = require('../webapi/AudioStation/pinlist.js')
     return pinList(library, req, res)
-  } else if (req.req.postData.api === 'SYNO.AudioStation.Browse.Playlist') {
+  } else if (req.postData.api === 'SYNO.AudioStation.Browse.Playlist') {
     const playList = require('../webapi/AudioStation/playlist.cgi.js')
     return playList(library, req, res)
   }
