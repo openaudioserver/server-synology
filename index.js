@@ -37,6 +37,9 @@ module.exports = {
   },
   handleRequest: async (library, req, res) => {
     res.statusCode = 200
+    if (!req.headers.cookie || req.headers.cookie.indexOf('smid=') === -1) {
+      res.setHeader('set-cookie', 'smid=E9GRXinHCOWZrGINa_VJPiuzMjMWLwkXyJCJT8z_pZ7KZ8Jf7vdLq9vxSf4zpJ7lQAWaO6WOHOZYkVfAnziPPg; stay_login=1; id=ap0hulniOX5f.1130LWN011720')
+    }
     if (req.urlPath !== '/webapi/AudioStation/cover.cgi') {
       if (req.urlPath.endsWith('.cgi') || req.urlPath.endsWith('.js')) {
         res.setHeader('content-type', 'application/javascript')
