@@ -62,6 +62,8 @@ module.exports = {
       }
     }
     if (req.sourcePath) {
+      library.playingQueue = library.playingQueue || []
+      library.remoteQueue = library.remoteQueue || []
       try {
         await executeRoute(library, req, res, req.sourcePath)
         return
@@ -72,7 +74,7 @@ module.exports = {
       }
     }
     if (req.homePath) {
-      return serveStaticFile(req, res, process.env.DSAUDIO_HTML_PATH)
+      return serveHomePage(req, res)
     }
     if (req.synomanPath) {
       return serveStaticFile(req, res, req.synomanPath)
@@ -182,20 +184,20 @@ async function serveHomePage (req, res) {
   return res.end(`<!DOCTYPE html>
 <html>
   <head>
-    <title>Synology compatibility for Open Audio Server</title>
+    <title>Open Audio Server:  Synology</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=11" />
-    <meta name="msapplication-TileImage" content="resources/images/icon_tile.png" />
     <meta name="application-name" content="AudioStation" />
     <meta name="msapplication-TileColor" content="#246BB3" />
-    <link rel="apple-touch-icon" href="webman/resources/images/icon_dsm_96.png" />
-    <link rel="mask-icon"  color="#0086E5" href="webman/safari_pin_icon.svg" />
-    <link rel="shortcut icon" href="webman/favicon.ico" />
-    <link rel="shortcut icon" sizes="96x96" href="webman/resources/images/icon_dsm_96.png" />
-    <link rel="shortcut icon" sizes="64x64" href="webman/resources/images/icon_dsm_64.png" />
-    <link rel="shortcut icon" sizes="48x48" href="webman/resources/images/icon_dsm_48.png" />
-    <link rel="shortcut icon" sizes="32x32" href="webman/resources/images/icon_dsm_32.png" />
-    <link rel="shortcut icon" sizes="16x16" href="webman/resources/images/icon_dsm_16.png" />
+    <meta name="msapplication-TileImage" content="/musical-note.png" />
+    <link rel="apple-touch-icon" href="/icon_dsm_96.png" />
+    <link rel="mask-icon"  color="#0086E5" href="/musical-note.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" sizes="96x96" href="/musical-note.png" />
+    <link rel="shortcut icon" sizes="64x64" href="/musical-note.png" />
+    <link rel="shortcut icon" sizes="48x48" href="/musical-note.png" />
+    <link rel="shortcut icon" sizes="32x32" href="/musical-note.png" />
+    <link rel="shortcut icon" sizes="16x16" href="/musical-note.png" />
     ${tags.join('\n')}
   </head>
   <body role="application"></body></html>`)
