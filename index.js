@@ -186,7 +186,7 @@ async function serveHomePage (req, res) {
   }
   const jsTags = []
   for (const file of js) {
-    jsTags.push(`<script src="${file}" />`)
+    jsTags.push(`<script src="${file}"></script>`)
   }
   res.setHeader('content-type', 'text/html')
   return res.end(`<!DOCTYPE html>
