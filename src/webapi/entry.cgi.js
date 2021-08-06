@@ -15,11 +15,11 @@ module.exports = (library, req, res) => {
   } else if (req.queryData.api === 'SYNO.Core.Desktop.JSUIString' && req.queryData.method === 'getjs') {
     return res.end(entryCGI2)
   } else if (req.queryData.api === 'SYNO.Core.Desktop.SessionData' && req.queryData.method === 'getjs') {
-    return res.end(entryCGI3.replace('SESSIONID', `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`))
+    return res.end(entryCGI3.replace('SESSIONID', `${global.ID}.${global.SERIAL}`))
   } else if (req.queryData.api === 'SYNO.Core.Desktop.UIString' && req.queryData.method === 'getjs') {
     return res.end(entryCGI4)
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.launch_app === '"SYNO.SDS.AudioStation.Application"') {
-    return res.end(entryCGI5.replace('SERIAL', process.env.SYNOLOGY_SERIAL_NUMBER).replace('SESSIONID', `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`))
+    return res.end(entryCGI5.replace('SERIAL', global.SERIAL).replace('SESSIONID', `${global.ID}.${global.SERIAL}`))
   } else if (req.postData.api === 'SYNO.Core.Desktop.Initdata' && req.postData.action === '"external_ip"') {
     return res.end('{ "data": { "external_ip": "0.0.0.0" }, "success": true }')
   } else if (req.postData.api === 'SYNO.Core.Desktop.Timeout') {

@@ -1,13 +1,13 @@
+global.SMID = 'E9GRXinHCOWZrGINa_VJPiuzMjMWLwkXyJCJT8z_pZ7KZ8Jf7vdLq9vxSf4zpJ7lQAWaO6WOHOZYkVfAnziPPg'
+global.ID = 'p0KZoueC'
+global.SERIAL = 'MEqA1130LWN011720'
+
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const existsCache = {}
 const bufferCache = {}
 const modulePath = __dirname
-const SMID = 'E9GRXinHCOWZrGINa_VJPiuzMjMWLwkXyJCJT8z_pZ7KZ8Jf7vdLq9vxSf4zpJ7lQAWaO6WOHOZYkVfAnziPPg'
-const ID = 'p0KZoueC'
-const SERIAL = 'MEqA1130LWN011720'
-const SESSION = '38076bb1fbef4df0cc4523b93124d4d6aca326cf23c421013aa0552f554d4eb44490'
 
 const existsAsync = util.promisify((filePath, callback) => {
   try {
@@ -66,7 +66,7 @@ module.exports = {
       }
     }
     if (req.homePath) {
-      res.setHeader('set-cookie', `smid=${SMID}; id=${ID}.${SERIAL}; _session=${SESSION}; samesite=none; secure;`)
+      res.setHeader('set-cookie', `smid=${global.SMID}; id=${global.ID}.${global.SERIAL}; same-site: none; secure`)
       return serveHomePage(req, res)
     }
     if (req.synomanPath) {

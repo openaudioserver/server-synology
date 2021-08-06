@@ -37,7 +37,7 @@ const AudioStationInfoCGI2 = JSON.stringify({
     },
     remote_controller: false,
     same_subnet: true,
-    serial_number: process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720',
+    serial_number: global.SERIAL,
     settings: {
       audio_show_virtual_library: true,
       disable_upnp: false,
@@ -45,7 +45,7 @@ const AudioStationInfoCGI2 = JSON.stringify({
       prefer_using_html5: true,
       transcode_to_mp3: true
     },
-    sid: `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`,
+    sid: `${global.ID}.${global.SERIAL}`,
     support_bluetooth: true,
     support_usb: true,
     support_virtual_library: true,
@@ -78,7 +78,7 @@ const AudioStationInfoCGI3 = JSON.stringify({
     },
     remote_controller: false,
     same_subnet: true,
-    serial_number: process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720',
+    serial_number: global.SERIAL,
     settings: {
       audio_show_virtual_library: true,
       disable_upnp: false,
@@ -86,7 +86,7 @@ const AudioStationInfoCGI3 = JSON.stringify({
       prefer_using_html5: true,
       transcode_to_mp3: true
     },
-    sid: `${process.env.SYNOLOGY_SESSION_ID || 'p0KZoueC'}.${process.env.SYNOLOGY_SERIAL_NUMBER || 'MEqA1130LWN011720'}`,
+    sid: `${global.ID}.${global.SERIAL}`,
     support_bluetooth: true,
     support_usb: true,
     support_virtual_library: true,
