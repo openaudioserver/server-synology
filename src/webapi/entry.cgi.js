@@ -5,6 +5,8 @@ const entryCGI2 = fs.readFileSync(path.join(__dirname, 'entry.cgi.2.js')).toStri
 const entryCGI3 = fs.readFileSync(path.join(__dirname, 'entry.cgi.3.js')).toString()
 const entryCGI4 = fs.readFileSync(path.join(__dirname, 'entry.cgi.4.js')).toString()
 const entryCGI5 = JSON.stringify(require('./entry.cgi.5.json'))
+const existsCache = {}
+const bufferCache = {}
 
 module.exports = (library, req, res) => {
   if (req.queryData.method === 'getjs') {
@@ -41,6 +43,17 @@ module.exports = (library, req, res) => {
     const playList = require('../webapi/AudioStation/playlist.cgi.js')
     return playList(library, req, res)
   }
+  // A synoman path of some sort
+  const synomanFilePath = path.join(process.env.SYNOMAN_PATH, req.urlPath)
+  const exists = existsCache[synomanFilePath] = existsCache[synomanFilePath] || fs.existsSync(synomanFilePath)
+  if (exists) {
+    bufferCache[synomanFilePath] = bufferCache[synomanFilePath] || {
+      format: 'image/png',
+      data: fs.readFileSync(synomanFilePath)
+    }
+    res.setHeader('content-type', bufferCache[synomanFilePath].format)
+    return res.end(bufferCache[synomanFilePath].data)
+  }
   console.log('unsupported ending', req.url)
-  res.end()
+  return res.end()
 }
