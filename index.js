@@ -200,8 +200,8 @@ async function serveHomePage (req, res) {
     <link rel="shortcut icon" sizes="96x96" href="/android-chrome-192x192.png" />
     <link rel="shortcut icon" sizes="64x64" href="/android-chrome-192x192.png" />
     <link rel="shortcut icon" sizes="48x48" href="/android-chrome-192x192.png" />
-    <link rel="shortcut icon" sizes="32x32" href="/favicon_32x32.png" />
-    <link rel="shortcut icon" sizes="16x16" href="/favicon_16x16.png" />
+    <link rel="shortcut icon" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="shortcut icon" sizes="16x16" href="/favicon-16x16.png" />
     ${tags.join('\n')}
   </head>
   <body role="application"></body></html>`)
