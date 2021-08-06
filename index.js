@@ -32,10 +32,16 @@ module.exports = {
       req.sourcePath = sourcePath
       return true
     }
+    const staticPath = path.join(modulePath, 'src', req.urlPath)
+    const staticPathExists = existsCache[staticPath] = existsCache[staticPath] || await existsAsync(staticPath)
+    if (staticPathExists) {
+      req.staticPath = staticPath
+      return true
+    }
     const synomanPath = path.join(process.env.SYNOMAN_PATH, req.urlPath)
     const synomanExists = existsCache[synomanPath] = existsCache[synomanPath] || await existsAsync(synomanPath)
     if (synomanExists) {
-      req.synomanPath = synomanPath
+      req.staticPath = synomanPath
       return true
     }
     return false
@@ -76,8 +82,8 @@ module.exports = {
     if (req.homePath) {
       return serveHomePage(req, res)
     }
-    if (req.synomanPath) {
-      return serveStaticFile(req, res, req.synomanPath)
+    if (req.staticPath) {
+      return serveStaticFile(req, res, req.staticPath)
     }
     res.statusCode = 404
     return res.end()
@@ -189,15 +195,14 @@ async function serveHomePage (req, res) {
     <meta http-equiv="X-UA-Compatible" content="IE=11" />
     <meta name="application-name" content="AudioStation" />
     <meta name="msapplication-TileColor" content="#246BB3" />
-    <meta name="msapplication-TileImage" content="/musical-note.png" />
-    <link rel="apple-touch-icon" href="/icon_dsm_96.png" />
-    <link rel="mask-icon"  color="#0086E5" href="/musical-note.svg" />
+    <meta name="msapplication-TileImage" content="/android-chrome_192x192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="shortcut icon" sizes="96x96" href="/musical-note.png" />
-    <link rel="shortcut icon" sizes="64x64" href="/musical-note.png" />
-    <link rel="shortcut icon" sizes="48x48" href="/musical-note.png" />
-    <link rel="shortcut icon" sizes="32x32" href="/musical-note.png" />
-    <link rel="shortcut icon" sizes="16x16" href="/musical-note.png" />
+    <link rel="shortcut icon" sizes="96x96" href="/android-chrome_192x192.png" />
+    <link rel="shortcut icon" sizes="64x64" href="/android-chrome_192x192.png" />
+    <link rel="shortcut icon" sizes="48x48" href="/android-chrome_192x192.png" />
+    <link rel="shortcut icon" sizes="32x32" href="/favicon_32x32.png" />
+    <link rel="shortcut icon" sizes="16x16" href="/favicon_16x16.png" />
     ${tags.join('\n')}
   </head>
   <body role="application"></body></html>`)
