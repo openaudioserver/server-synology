@@ -81,7 +81,7 @@ module.exports = {
       }
     }
     if (req.homePath) {
-      return serveStaticFile(req, res)
+      return serveStaticFile(req, res, req.staticPath)
     }
     if (req.staticPath) {
       return serveStaticFile(req, res, req.staticPath)
