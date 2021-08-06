@@ -16,7 +16,10 @@ module.exports = async (library, req, res) => {
 }
 
 async function listSongs (library, options) {
-  return library.getObjects(library.albums, options)
+  const result = library.getObjects(library.tracks, options)
+  result.data.songs = result.data.tracks || []
+  delete (result.data.tracks)
+  return result
 }
 
 async function setRating (library, options) {
