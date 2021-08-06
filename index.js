@@ -194,7 +194,7 @@ async function serveHomePage (req, res) {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=11" />
     <meta name="application-name" content="AudioStation" />
-    <meta name="msapplication-TileImage" content="/favicon_96x96.png" />
+    <meta name="msapplication-TileImage" content="/favicon-96x96.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="shortcut icon" sizes="96x96" href="/favicon-96x96.png" />
