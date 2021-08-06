@@ -194,13 +194,12 @@ async function serveHomePage (req, res) {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=11" />
     <meta name="application-name" content="AudioStation" />
-    <meta name="msapplication-TileColor" content="#246BB3" />
     <meta name="msapplication-TileImage" content="/android-chrome_192x192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="shortcut icon" sizes="96x96" href="/android-chrome_192x192.png" />
-    <link rel="shortcut icon" sizes="64x64" href="/android-chrome_192x192.png" />
-    <link rel="shortcut icon" sizes="48x48" href="/android-chrome_192x192.png" />
+    <link rel="shortcut icon" sizes="96x96" href="/android-chrome-192x192.png" />
+    <link rel="shortcut icon" sizes="64x64" href="/android-chrome-192x192.png" />
+    <link rel="shortcut icon" sizes="48x48" href="/android-chrome-192x192.png" />
     <link rel="shortcut icon" sizes="32x32" href="/favicon_32x32.png" />
     <link rel="shortcut icon" sizes="16x16" href="/favicon_16x16.png" />
     ${tags.join('\n')}
