@@ -1,6 +1,7 @@
 global.SMID = 'E9GRXinHCOWZrGINa_VJPiuzMjMWLwkXyJCJT8z_pZ7KZ8Jf7vdLq9vxSf4zpJ7lQAWaO6WOHOZYkVfAnziPPg'
 global.ID = 'p0KZoueC'
 global.SERIAL = 'MEqA1130LWN011720'
+global.TOKEN = 'rpTd8mTtIbqJA'
 
 const fs = require('fs')
 const path = require('path')
@@ -40,6 +41,11 @@ module.exports = {
     return false
   },
   handleRequest: async (library, req, res) => {
+    if (!req.headers.cookie || req.headers.cookie.indexOf('id') === -1) {
+      res.setHeader('set-cookie', `id=${global.ID}.${global.SERIAL}; same-site: none; secure; path=/;`)
+    } else if (!req.headers.cookie || req.headers.cookie.indexOf('smid') === -1) {
+      res.setHeader('set-cookie', `smid=${global.SMID}; same-site: none; secure; path=/;`)
+    }
     res.statusCode = 200
     if (req.urlPath.indexOf('.cgi/') > -1) {
       req.urlPath = req.urlPath.substring(0, req.urlPath.indexOf('.cgi/') + '.cgi'.length)
@@ -66,8 +72,7 @@ module.exports = {
       }
     }
     if (req.homePath) {
-      res.setHeader('set-cookie', `smid=${global.SMID}; id=${global.ID}.${global.SERIAL}; same-site: none; secure`)
-      return serveHomePage(req, res)
+      return serveStaticFile(req, res, process.env.DSAUDIO_HTML_PATH)
     }
     if (req.synomanPath) {
       return serveStaticFile(req, res, req.synomanPath)
