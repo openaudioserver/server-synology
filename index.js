@@ -69,9 +69,15 @@ module.exports = {
       }
     }
     if (req.sourcePath) {
-      library.playingQueue = library.playingQueue || []
-      library.remoteQueue = library.remoteQueue || []
       try {
+        if (req.postData.sort_by) {
+          req.postData.sortBy = req.postData.sort_by
+          delete (req.postData.sort_by)
+        }
+        if (req.postData.sort_description) {
+          req.postData.sortDescription = req.postData.sort_description
+          delete (req.postData.sort_description)
+        }
         await executeRoute(library, req, res, req.sourcePath)
         return
       } catch (error) {
