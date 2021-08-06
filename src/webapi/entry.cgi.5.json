@@ -12152,7 +12152,7 @@
         },
         "remote_controller": false,
         "same_subnet": true,
-        "serial_number": "1130LWN011720",
+        "serial_number": "SERIAL",
         "settings": {
           "audio_show_virtual_library": true,
           "disable_upnp": false,
@@ -12160,7 +12160,7 @@
           "prefer_using_html5": true,
           "transcode_to_mp3": true
         },
-        "sid": "ap0hulniOX5f.1130LWN011720",
+        "sid": "SESSIONID",
         "support_bluetooth": true,
         "support_usb": true,
         "support_virtual_library": true,
