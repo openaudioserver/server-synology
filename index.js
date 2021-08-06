@@ -180,12 +180,13 @@ async function serveHomePage (req, res) {
     '/webapi/entry.cgi?api=SYNO.Core.Desktop.SessionData&version=1&method=getjs',
     '/webman/security.cgi'
   ]
-  const tags = []
+  const cssTags = []
   for (const file of css) {
-    tags.push(`<link rel="stylesheet" href="${file}" />`)
+    cssTags.push(`<link rel="stylesheet" href="${file}" />`)
   }
+  const jsTags = []
   for (const file of js) {
-    tags.push(`<script src="${file}" />`)
+    jsTags.push(`<script src="${file}" />`)
   }
   return res.end(`<!DOCTYPE html>
 <html>
@@ -202,7 +203,7 @@ async function serveHomePage (req, res) {
     <link rel="shortcut icon" sizes="48x48" href="/favicon-48x48.png" />
     <link rel="shortcut icon" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="shortcut icon" sizes="16x16" href="/favicon-16x16.png" />
-    ${tags.join('\n')}
+    ${cssTags.join('\n')}
   </head>
-  <body role="application"></body></html>`)
+  <body role="application"></body>${jsTags.join('\n')}</html>`)
 }
