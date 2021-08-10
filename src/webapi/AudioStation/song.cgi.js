@@ -17,8 +17,18 @@ module.exports = async (library, req, res) => {
 
 async function listSongs (library, options) {
   const result = await library.getObjects(library.tracks, options)
-  result.data.songs = result.data.tracks || []
-  delete (result.data.tracks)
+  const response = {
+    data: {
+      songs: result.data || [],
+      offset: result.offset || 0,
+      limit: result.limit || 1000,
+      total: result.total || 0
+    },
+    success: true
+  }
+  for (const song of response.data.songs) {
+    song.type = 'song'
+  }
   return result
 }
 
