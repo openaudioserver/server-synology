@@ -29,7 +29,7 @@ async function listSongs (library, options) {
   for (const song of response.data.songs) {
     song.type = 'song'
   }
-  return result
+  return response
 }
 
 async function setRating (library, options) {
