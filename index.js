@@ -74,9 +74,9 @@ module.exports = {
           req.postData.sortBy = req.postData.sort_by
           delete (req.postData.sort_by)
         }
-        if (req.postData.sort_description) {
-          req.postData.sortDescription = req.postData.sort_description
-          delete (req.postData.sort_description)
+        if (req.postData.sort_direction) {
+          req.postData.sortDirection = req.postData.sort_direction
+          delete (req.postData.sort_direction)
         }
         await executeRoute(library, req, res, req.sourcePath)
         return
