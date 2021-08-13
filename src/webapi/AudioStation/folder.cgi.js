@@ -47,14 +47,19 @@ async function listContents (library, options) {
     response.data.items = await library.getObjects(unfilteredItems, options).data
   }
   if (response.data.items) {
-    for (const item of response.data.items) {
+    const foldersAndTracks = []
+    for (const i in response.data.items) {
+      const item = response.data.items[i]
       if (item.type === 'file') {
         const track = await library.getObject(item.id.replace('file_', 'track_'))
         if (track) {
-          item.additional = track.additional
+          foldersAndTracks.push(track)
         }
+      } else {
+        foldersAndTracks.push(item)
       }
     }
+    response.data.items = foldersAndTracks
     response.data.total = response.data.items.length
     response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
   } else {
