@@ -30,7 +30,7 @@ async function listContents (library, options) {
         is_personal: false,
         path: child.path,
         title: child.path,
-        type: item.type
+        type: child.type
       })
     }
   } else {
