@@ -15,7 +15,6 @@ module.exports = async (library, req, res) => {
 async function listContents (library, options) {
   const response = {
     data: {
-      items: [],
       offset: options.offset || 0,
       limit: options.limit || 1000,
       total: options.total || 0
@@ -24,6 +23,7 @@ async function listContents (library, options) {
   }
   if (options.id) {
     const item = await library.getTreeItem(options.id)
+    response.data.items = []
     for (const child of item.contents) {
       response.data.items.push({
         id: child.id,
@@ -46,7 +46,13 @@ async function listContents (library, options) {
     }
     response.data.items = await library.getObjects(unfilteredItems, options)
   }
-  response.data.total = response.data.items.length
-  response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
+  if (response.data.items) {
+    response.data.total = response.data.items.length
+    response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
+  } else {
+    response.data.items = []
+    response.data.total = 0
+    response.data.folder_total = 0
+  }
   return response
 }
