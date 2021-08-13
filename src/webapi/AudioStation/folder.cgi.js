@@ -47,11 +47,6 @@ async function listContents (library, options) {
     response.data.items = await library.getObjects(unfilteredItems, options).data
   }
   if (response.data.items) {
-    for (const item of response.data.items) {
-      if (!item.id) {
-        item.id = `folder_${}`
-      }
-    }
     response.data.total = response.data.items.length
     response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
   } else {
