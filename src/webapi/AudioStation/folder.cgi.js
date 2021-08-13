@@ -34,8 +34,9 @@ async function listContents (library, options) {
       })
     }
   } else {
+    const unfilteredItems = []
     for (const item of library.tree.contents) {
-      response.data.items.push({
+      unfilteredItems.push({
         id: item.id,
         is_personal: false,
         path: item.path,
@@ -43,7 +44,7 @@ async function listContents (library, options) {
         type: item.type
       })
     }
-    response.data.items = library.getObjects(response.data.items, options)
+    response.data.items = library.getObjects(unfilteredItems, options)
   }
   response.data.total = response.data.items.length
   response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
