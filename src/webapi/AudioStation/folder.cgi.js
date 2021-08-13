@@ -49,7 +49,7 @@ async function listContents (library, options) {
   if (response.data.items) {
     for (const item of response.data.items) {
       if (item.type === 'file') {
-        const track = await library.getObject(item.id)
+        const track = await library.getObject(item.id.replace('file_', 'track_'))
         if (track) {
           item.additional = track.additional
         }
