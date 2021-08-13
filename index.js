@@ -71,7 +71,7 @@ module.exports = {
     if (req.sourcePath) {
       try {
         if (req.postData.sort_by) {
-          req.postData.sortBy = req.postData.sort_by
+          req.postData.sort = req.postData.sort_by
           delete (req.postData.sort_by)
         }
         if (req.postData.sort_direction) {
