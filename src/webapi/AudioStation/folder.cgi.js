@@ -22,7 +22,7 @@ async function listContents (library, options) {
     success: true
   }
   if (options.id) {
-    const item = await library.getTreeItem(options.id)
+    const item = await library.getTreeObject(options.id)
     response.data.items = []
     for (const child of item.contents) {
       response.data.items.push({
@@ -47,6 +47,11 @@ async function listContents (library, options) {
     response.data.items = await library.getObjects(unfilteredItems, options).data
   }
   if (response.data.items) {
+    for (const item of response.data.items) {
+      if (!item.id) {
+        item.id = `folder_${}`
+      }
+    }
     response.data.total = response.data.items.length
     response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
   } else {
