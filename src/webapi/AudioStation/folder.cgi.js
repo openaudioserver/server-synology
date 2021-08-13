@@ -29,7 +29,8 @@ async function listContents (library, options) {
         id: child.id,
         is_personal: false,
         path: child.path,
-        title: child.path
+        title: child.path,
+        type: item.type
       })
     }
   } else {
