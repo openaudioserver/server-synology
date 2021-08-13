@@ -44,7 +44,7 @@ async function listContents (library, options) {
         type: item.type
       })
     }
-    response.data.items = library.getObjects(unfilteredItems, options)
+    response.data.items = await library.getObjects(unfilteredItems, options)
   }
   response.data.total = response.data.items.length
   response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
