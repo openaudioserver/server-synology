@@ -27,7 +27,33 @@ async function listSongs (library, options) {
     success: true
   }
   for (const song of response.data.songs) {
-    song.type = 'song'
+    song.type = 'file'
+    song.additional = {
+      song_audio: {
+        bitrate: song.bitrate,
+        channel: song.numberOfChannels,
+        codec: song.codecProfile,
+        container: song.container,
+        duration: song.duration,
+        filesize: song.size,
+        frequency: song.sampleRate
+      },
+      song_rating: {
+        rating: 0
+      },
+      song_tag: {
+        artist: song.artist || '',
+        album: song.album || '',
+        album_artist: song.albumartist || song.artist || '',
+        title: song.title || '',
+        composers: song.composers || [],
+        genre: song.genres || [],
+        artists: song.artists || [],
+        disc: song.disc || 0,
+        track: song.track || 0,
+        year: song.year || 0
+      }
+    }
   }
   return response
 }
