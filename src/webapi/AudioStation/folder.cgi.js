@@ -29,8 +29,7 @@ async function listContents (library, options) {
         id: child.id,
         is_personal: false,
         path: child.path,
-        title: child.path,
-        type: child.type
+        title: child.path
       })
     }
   } else {
@@ -47,6 +46,14 @@ async function listContents (library, options) {
     response.data.items = await library.getObjects(unfilteredItems, options).data
   }
   if (response.data.items) {
+    for (const item of response.data.items) {
+      if (item.type === 'file') {
+        const track = await library.getObject(item.id)
+        if (track) {
+          item.additional = track.additional
+        }
+      }
+    }
     response.data.total = response.data.items.length
     response.data.folder_total = response.data.items.filter(item => item.type === 'folder').length
   } else {
